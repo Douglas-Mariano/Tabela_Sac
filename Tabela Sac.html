@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SAC</title>
+		<meta charset="utf-8">
+	</head>
+	<style>
+		th{
+			background-color: blue;
+			color: white;
+		}
+		td{
+			background-color: aquamarine;
+		}
+		
+	</style>
+	<body>
+		<h1>Tabela SAC</h1>
+		
+	<label for="txtDivida">Dívida</label>
+    <input type="text" id="txtDivida" placeholder="Dívida">
+    
+	<br><label for="txtMeses">Meses</label>
+	<input type="text" id="txtMeses" placeholder="Meses">
+	
+	<br><label for="txtTaxa">Taxa (em %)</label>
+	<input type="text" id="txtTaxa" placeholder="Taxa">
+	<br>
+	<button onclick="calcularSAC()">Calcular</button>
+	
+	<br><br>
+	<table border="1" id="tabela">
+	  <tr>
+	    <th>Período</th>
+	    <th>Saldo Inicial</th>
+        <th>Juros calc.</th>
+        <th>Saldo após juros</th>
+        <th>Pgto.</th>
+        <th>Amortizado</th>
+        <th>Juros pagos</th>
+        <th>Saldo final</th>
+	  </tr>
+	
+	</table>
+	
+	</body>
+	<script>
+	   function calcularSAC(){
+	   
+			let divida= Number(document.getElementById("txtDivida").value);
+			let meses = Number(document.getElementById("txtMeses").value);
+			let taxa = Number(document.getElementById("txtTaxa").value);
+            let saldoinicial = divida;
+            let juroscalc = (saldoinicial * taxa / (100));
+            let saldojuros = (((saldoinicial * taxa / (100)) + saldoinicial));
+            let amortizado = Number(document.getElementById("txtDivida").value/Number(document.getElementById("txtMeses").value));
+            let pgto =(amortizado + juroscalc);
+            let jurospago = juroscalc;
+            let saldofinal = (saldoinicial-amortizado);
+	        let saida = document.getElementById("tabela").innerHTML;
+
+	        for( n = 1; n <= meses; n++){
+                    
+		    	saida += "<tr>";
+		    	saida += "<td>"+ n +"</td>";
+		    	saida += "<td>"+ saldoinicial +"</td>";
+                saida += "<td>"+ juroscalc +"</td>";
+                saida += "<td>"+ saldojuros +"</td>";
+                saida += "<td>"+ pgto +"</td>";
+                saida += "<td>"+ amortizado +"</td>";
+                saida += "<td>"+ jurospago +"</td>";
+                saida += "<td>"+ saldofinal +"</td>";
+			    saida += "</tr>";
+
+                saldoinicial = saldofinal;
+                juroscalc = saldoinicial * taxa / (100);
+                saldojuros = (((saldoinicial * taxa / (100)) + saldoinicial));
+                pgto =(amortizado + juroscalc);
+                saldofinal = (saldoinicial-amortizado);
+                jurospago = juroscalc;
+
+			 }
+	       document.getElementById("tabela").innerHTML = saida;
+	   }
+		
+	</script>
+</html>
